@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Rate sample models",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "ai_safety_rating",
+      "args": ["data/sample_results.json"],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Run tests",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "unittest",
+      "args": ["discover", "-s", "tests", "-v"],
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

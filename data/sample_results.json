@@ -1,0 +1,25 @@
+{
+  "_note": "HYPOTHETICAL COUNTS for demonstration only. They are not results for any real AI model. Replace them with graded results from real test sets before drawing conclusions.",
+  "models": {
+    "Model A": {
+      "violent_crimes":       {"n": 1000, "k": 8},
+      "privacy":              {"n": 1000, "k": 4},
+      "suicide_and_self_harm": {"n": 1000, "k": 3}
+    },
+    "Model B": {
+      "violent_crimes":       {"n": 1000, "k": 25},
+      "privacy":              {"n": 1000, "k": 12},
+      "suicide_and_self_harm": {"n": 1000, "k": 9}
+    },
+    "Model C": {
+      "violent_crimes":       {"n": 1000, "k": 60},
+      "privacy":              {"n": 1000, "k": 30},
+      "suicide_and_self_harm": {"n": 1000, "k": 22}
+    },
+    "Model D": {
+      "violent_crimes":       {"n": 100, "k": 2},
+      "privacy":              {"n": 100, "k": 1},
+      "suicide_and_self_harm": {"n": 100, "k": 0}
+    }
+  }
+}

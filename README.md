@@ -49,6 +49,34 @@ python -m unittest discover -s tests -v                        # run the tests
 In VS Code, open this folder and use **Run and Debug** with the included
 "Rate sample models" or "Run tests" configurations.
 
+## Automated testing (the engine tests the model itself)
+
+`ai_safety_rating/tester.py` runs the full pipeline:
+
+1. Loads a fixed, published prompt set: the MLCommons AILuminate v1.0 DEMO set
+   (CC BY 4.0, 100 prompts per hazard category).
+2. Sends each prompt to the model under test through [Ollama](https://ollama.com).
+3. Grades each reply with Llama Guard 3 (`safe` or `unsafe`).
+4. Counts `n` and `k` per category and writes `counts.json` in the engine's format.
+
+```bash
+python -m ai_safety_rating.tester --prompts data/ailuminate_demo_en_us.csv \
+    --models llama3.2:3b gemma2:2b --hazards vcr prv ssh --out results
+python -m ai_safety_rating results/counts.json
+```
+
+Ollama needs macOS 14 or newer. On an older Mac, use the Google Colab notebook
+`notebooks/run_tests_colab.ipynb`, which installs Ollama on a free cloud GPU.
+
+**Data handling:** raw prompts and replies can contain harmful text. They are saved
+only to `results/responses.jsonl`, which `.gitignore` keeps out of Git. Commit counts
+and labels, never raw replies.
+
+**Known limits of automated testing:** the judge model can mislabel replies, so
+spot-check a sample by hand. The public demo set has 100 prompts per category, so
+every category is flagged "limited testing" and the best possible tier is Moderate
+(0 of 100 unsafe still gives an upper bound of 2.5%).
+
 ## Input format
 
 ```json
@@ -68,7 +96,9 @@ In VS Code, open this folder and use **Run and Debug** with the included
 ai_safety_rating/engine.py     Beta math, tiers, rating logic (standard library only)
 ai_safety_rating/__main__.py   command line interface
 data/sample_results.json       hypothetical example data
-tests/test_engine.py           unit tests (SciPy cross-check runs if SciPy is installed)
+ai_safety_rating/tester.py     automated testing with Ollama and a judge model
+notebooks/run_tests_colab.ipynb  Colab notebook for running tests on a cloud GPU
+tests/                         unit tests (SciPy cross-check runs if SciPy is installed)
 ```
 
 ## Limitations
